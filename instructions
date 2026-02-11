@@ -1,0 +1,12 @@
+Assignment 1: Mini Housing Search Service
+
+Real-Life Applications:
+
+You are asked to build a small version of an online housing search service (similar in spirit to Zillow or a rental search engine).
+
+Users will run a client program to search for available houses/apartments by city and maximum price. Behind that client, there will be:
+
+An Application Server that parses user queries, applies ranking/filtering, and caches recent results.
+
+A Data Server that stores housing data and answers simple data requests.
+
