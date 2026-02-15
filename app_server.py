@@ -1,27 +1,56 @@
 import socket
 
+APP_HOST = "0.0.0.0"
+APP_PORT = 8080
 
-def handle_request(request):
-    # we need to process request and return a response here
-    return
+DATA_HOST = "127.0.0.1"
+DATA_PORT = 9090
 
-# Gets ip address from local computer (might need to replace later)
-HOST = socket.gethostbyname(socket.gethostname())
-PORT = 9090
-
-# Create server
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((HOST, PORT))
-server.listen(5)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server.bind((APP_HOST, APP_PORT))
+server.listen(1)
+
+print(f"[app_server] Listening on {APP_HOST}:{APP_PORT}")
+print(f"[app_server] Will forward to data_server at {DATA_HOST}:{DATA_PORT}")
 
 while True:
-    # Allows us to accept one client at a time
-    client, address = server.accept()
-    print(f"Connection from: {address}")    
-    # Handle request
-    data = client.recv(1024).decode('utf-8')
-    response = handle_request(data)
-    client.send(response.encode('utf-8'))
+    client_conn, client_addr = server.accept()
+    print(f"[app_server] Client is connected: {client_addr}")
 
-    # Close and move to next client
-    client.close()
+    cr = client_conn.makefile("r", encoding="utf-8", newline="\n")
+    cw = client_conn.makefile("w", encoding="utf-8", newline="\n")
+
+    try:
+        while True:
+            line = cr.readline()
+            if not line or line.strip() == "quit":
+                break
+            
+            # ensures that we actually check for a query being sent and also strips query request
+            query = line.strip()
+            if not query:
+                continue
+
+            query = line.strip()
+            print(f"[app_server] Received from client: {query}")
+
+            # Connect to data_server for this request ds = data_server
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as ds:
+                ds.connect((DATA_HOST, DATA_PORT))
+                ds_r = ds.makefile("r", encoding="utf-8", newline="\n")
+                ds_w = ds.makefile("w", encoding="utf-8", newline="\n")
+
+                ds_w.write(query + "\n")
+                ds_w.flush()
+
+                ds_response = ds_r.readline().strip()
+                print(f"[app_server] Got from data_server: {ds_response}")
+
+            # Send back to client
+            cw.write(ds_response + "\n")
+            cw.flush()
+
+    finally:
+        client_conn.close()
+        print("[app_server] Client connection is closed, bye bye!")
