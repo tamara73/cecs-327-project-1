@@ -19,8 +19,8 @@ def parase_cas_command(line):
             k, v = token.split("=")
             params [k] = v
         return "SEARCH", params
-    if parts[0] == "QUIT":# checks if the client wanst to disconnect/quit
-        return "QUIT", {}
+    if parts[0] == "quit":# checks if the client wanst to disconnect/quit
+        return "quit", {}
     raise ValueError("unknow command... :(")
     
 #translates client command to data server command
@@ -63,7 +63,7 @@ while True:
         while True:
             #reads command from client
             line = cr.readline()
-            if not line or line.strip() == "QUIT":
+            if not line or line.strip() == "quit":
                 break
             
             # ensures that we actually check for a query being sent and also strips query request
@@ -76,7 +76,7 @@ while True:
             try:
                 cmd, params = parase_cas_command(query)# breaks the clients requst into command tpyes
 
-                if cmd == "QUIT":
+                if cmd == "quit":
                     break
 
                 #translates client command to data server command
