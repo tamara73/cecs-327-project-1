@@ -18,22 +18,36 @@ In order to run this program you will need Python 3.0 as well as 3 terminal wind
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
+This system uses a 3-tier architecture and must be started in the correct order.
+
+You will need **three terminal windows**.
+
+#### Step 1: Navigate to the project folder
+In each terminal, move to the folder that contains the project files:
+
+```bash
+cd path/to/your/project
 ```
 
-## Help
+#### Step 2: Run all 3 python files
+In each terminal you will run one python script in the order:
+```
+python data_server.py
+```
+```
+python app_server.py
+```
+```
+python client.py
+```
+#### Step 3: Make a query request
+Follow the inctructions provided by each python file in the terminal. You will be able to make a query in the client.py terminal. 
+To quit simply enter "quit" into the terminal and enter. Alternatively you can also use Ctrl + C.
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
 
 ## Authors
 
-Contributors names and contact info
+Ashley Garcia, Melanie Cativo, Kimberly Martinez Cardoso
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+## Course and University
+CECS 327 - California State University, Long Beach - 02/17/2026
