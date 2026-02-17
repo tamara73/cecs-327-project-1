@@ -18,14 +18,13 @@ def performace_test(wfile, rfile):
         #send request
         wfile.write(command + "\n")
         wfile.flush()
-    
-    #reads until END
-    while True:
-        line = rfile.readline()
-        if not line:
-            break
-        if line.startswith("ERROR") or line.strip() == "END":
-            break
+        #reads until END
+        while True:
+            line = rfile.readline()
+            if not line:
+                break
+            if line.startswith("ERROR") or line.strip() == "END":
+                break
     end = time.time()
     total = end - start
     avg = total / repeats
@@ -51,7 +50,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         if not message:
             continue
 
-        if message.upper() == "PER":
+        if message.upper() == "PERF":
             performace_test(wfile, rfile)
             continue
 

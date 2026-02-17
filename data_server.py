@@ -103,7 +103,6 @@ while True:
             msg = line.strip()
             print(f"[data_server] Received: {msg}")
 
-            #made changes here - ashley
             #process request
             response = handle_request(msg)
 

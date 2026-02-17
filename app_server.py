@@ -81,10 +81,10 @@ while True:
                 cashe_key = query #explain what this line of code is doing
 
                 #if cache return cashed response 
-                if CACHE_ENABLED and cashe_key is CACHE:
+                if CACHE_ENABLED and cashe_key in CACHE:
                     response = CACHE[cashe_key]
                     cw.write(response)
-                    cw.flash()
+                    cw.flush()
                     continue
 
                 #parse client command
