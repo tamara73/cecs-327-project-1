@@ -16,6 +16,9 @@ def listing_to_wire_line(item):
 #parse raw_list / raw_search reqests
 def parse_ads_request(line):
     parts = line.strip().split() #removes spaces/newline from the request and splits it into words
+    if not parts:
+        raise ValueError("empty request.... :(")
+    
     if parts[0] == "RAW_LIST":#will check if the command received is raw_list
         return "RAW_LIST", {}
     
@@ -32,10 +35,10 @@ def parse_ads_request(line):
 
 #filters the listings by city and price
 def filter_listings(city, max_price):
-    return (
+    return [
         rec for rec in LISTINGS#goes through each listing stored in Listings
         if rec["city"] == city and rec["price"] <= max_price
-    )
+    ]
 
 # okay response 
 def ok_response(items):

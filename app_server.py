@@ -92,8 +92,10 @@ while True:
                     ds_w.write(ads_command + "\n")
                     ds_w.flush()
 
-                    #receives multi responses
+                    #receives responses
                     response = untill_end(ds_r)
+                    cw.write(response)
+                    cw.flash()
 
             except Exception as e: #catches any errors
                 cw.write(f"ERROR {e}\n")
