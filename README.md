@@ -32,13 +32,13 @@ cd path/to/your/project
 #### Step 2: Run all 3 python files
 In each terminal you will run one python script in the order:
 ```
-python data_server.py
+python3 data_server.py
 ```
 ```
-python app_server.py
+python3 app_server.py
 ```
 ```
-python client.py
+python3 client.py
 ```
 #### Step 3: Make a query request
 Follow the inctructions provided by each python file in the terminal. You will be able to make a query in the client.py terminal. 
