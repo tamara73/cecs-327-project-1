@@ -41,7 +41,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     rfile = s.makefile("r", encoding="utf-8", newline="\n")
     wfile = s.makefile("w", encoding="utf-8", newline="\n")
 
-    print("Connected! \nType 'LIST' so see all listing\nType SEARCH city=... max_price=...")
+    print("Connected! \nType 'LIST' to see all listings\nType SEARCH city=... max_price=...")
     print("Type 'QUIT' to exit")
 
     while True:
@@ -55,7 +55,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             performace_test(wfile, rfile)
             continue
 
-        #if user wnats to quit it will noify server and stop client
+        #if user wants to quit it will noify server and stop client
         if message.upper() == "QUIT":
             wfile.write("QUIT\n")
             wfile.flush()
@@ -65,7 +65,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         #sends command to app server
         wfile.write(message + "\n")
         wfile.flush()
-        #stops untill end or error
+        #stops until end or error
         lines = []
         while True:
             line = rfile.readline()
