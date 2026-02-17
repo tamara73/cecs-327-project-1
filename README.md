@@ -25,7 +25,7 @@ You will need **three terminal windows**.
 #### Step 1: Navigate to the project folder
 In each terminal, move to the folder that contains the project files:
 
-```bash
+```
 cd path/to/your/project
 ```
 
