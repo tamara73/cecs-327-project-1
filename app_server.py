@@ -16,12 +16,12 @@ def parase_cas_command(line):
     if parts[0] == "SEARCH":#checks if the first word of the command is SEARCH
         params = {}
         for token in parts[1:]:# loops throught the parameters after SEARCH
-            k, v = token.split(" = ")
+            k, v = token.split("=")
             params [k] = v
         return "SEARCH", params
-    if parts[0] == "quit":# checks if the client wanst to disconnect/quit
-        return "quit", {}
-    raise ValueError("unknow command... :(")
+    if parts[0] == "QUIT":# checks if the client wanst to disconnect/quit
+        return "QUIT", {}
+    raise ValueError("unknow command... :( maybe check format...")
     
 #translates client command to data server command
 def make_ads_command(cmd, params):
@@ -63,7 +63,7 @@ while True:
         while True:
             #reads command from client
             line = cr.readline()
-            if not line or line.strip() == "quit":
+            if not line or line.strip() == "QUIT":
                 break
             
             # ensures that we actually check for a query being sent and also strips query request
@@ -76,7 +76,7 @@ while True:
             try:
                 cmd, params = parase_cas_command(query)# breaks the clients requst into command tpyes
 
-                if cmd == "quit":
+                if cmd == "QUIT":
                     break
 
                 #translates client command to data server command
@@ -95,7 +95,7 @@ while True:
                     #receives responses
                     response = untill_end(ds_r)
                     cw.write(response)
-                    cw.flash()
+                    cw.flush()
 
             except Exception as e: #catches any errors
                 cw.write(f"ERROR {e}\n")

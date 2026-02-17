@@ -42,10 +42,10 @@ def filter_listings(city, max_price):
 
 # okay response 
 def ok_response(items):
-    lines = [f"OK RESULT {len(items)}\n"]
+    lines = [f"RESULT: {len(items)}\n"]
     for it in items: #loops through each listing result to format and add to response
         lines.append(listing_to_wire_line(it) + "\n")
-    lines.append("END\n")
+    lines.append("END of RESULTS\n")
     return "".join(lines)
 
 # error response
@@ -106,7 +106,7 @@ while True:
     try:
         while True:
             line = rfile.readline()
-            if not line or line.strip() == "quit":
+            if not line or line.strip() == "QUIT":
                 break # client wants to disconnect
 
             msg = line.strip()

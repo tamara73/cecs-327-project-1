@@ -12,16 +12,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     rfile = s.makefile("r", encoding="utf-8", newline="\n")
     wfile = s.makefile("w", encoding="utf-8", newline="\n")
 
-    print("Connected! \nType LIST so see all listing\n Type SEARCH city=... and max_price=...")
-    print("Type 'quit' to exit...")
+    print("Connected! \nType 'LIST' so see all listing\nType SEARCH city=... max_price=...")
+    print("Type 'QUIT' to exit")
 
     while True:
         #ask user for input
         message = input("Client: ")
 
         #if user wnats to quit it will noify server and stop client
-        if message.strip().lower() == "quit":
-            wfile.write("quit\n")
+        if message.strip().upper() == "QUIT":
+            wfile.write("QUIT\n")
             wfile.flush()
             print("Disconnecting... bye bye!")
             break
