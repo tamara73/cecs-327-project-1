@@ -12,7 +12,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     rfile = s.makefile("r", encoding="utf-8", newline="\n")
     wfile = s.makefile("w", encoding="utf-8", newline="\n")
 
-    print("Connected! Type LIST or SEARCH city=... and max_price=...")
+    print("Connected! \nType LIST so see all listing\n Type SEARCH city=... and max_price=...")
     print("Type 'quit' to exit...")
 
     while True:

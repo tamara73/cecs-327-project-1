@@ -16,7 +16,7 @@ def parase_cas_command(line):
     if parts[0] == "SEARCH":#checks if the first word of the command is SEARCH
         params = {}
         for token in parts[1:]:# loops throught the parameters after SEARCH
-            k, v = token.split("=")
+            k, v = token.split(" = ")
             params [k] = v
         return "SEARCH", params
     if parts[0] == "quit":# checks if the client wanst to disconnect/quit
