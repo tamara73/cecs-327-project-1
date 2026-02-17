@@ -1,4 +1,5 @@
 import socket
+import time
 
 APP_HOST = "0.0.0.0"
 APP_PORT = 8080
@@ -6,7 +7,9 @@ APP_PORT = 8080
 DATA_HOST = "127.0.0.1"
 DATA_PORT = 9090
 
-#cashe will be later
+#cashe: use False for without cashing and True with cashing
+CACHE_ENABLED = False #you can change it here True/Flase
+CACHE = {} 
 
 #parase commands from client
 def parase_cas_command(line):
@@ -50,6 +53,7 @@ server.listen(1)
 
 print(f"[app_server] Listening on {APP_HOST}:{APP_PORT}")
 print(f"[app_server] Will forward to data_server at {DATA_HOST}:{DATA_PORT}")
+print(f"[app_server] Cashe is {'ON' if CACHE_ENABLED else 'OFF'} - turn off or on in app_server.py line 11")
 
 while True:
     client_conn, client_addr = server.accept()
@@ -74,6 +78,16 @@ while True:
             print(f"[app_server] Received: {query}")
 
             try:
+                cashe_key = query #explain what this line of code is doing
+
+                #if cache return cashed response 
+                if CACHE_ENABLED and cashe_key is CACHE:
+                    response = CACHE[cashe_key]
+                    cw.write(response)
+                    cw.flash()
+                    continue
+
+                #parse client command
                 cmd, params = parase_cas_command(query)# breaks the clients requst into command tpyes
 
                 if cmd == "QUIT":
@@ -94,8 +108,13 @@ while True:
 
                     #receives responses
                     response = untill_end(ds_r)
-                    cw.write(response)
-                    cw.flush()
+
+                #saves to cashe    
+                if CACHE_ENABLED:
+                    CACHE[cashe_key] = response
+                #sends response back to client
+                cw.write(response)
+                cw.flush()
 
             except Exception as e: #catches any errors
                 cw.write(f"ERROR {e}\n")

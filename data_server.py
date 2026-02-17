@@ -2,7 +2,7 @@ import socket
 import json
 
 #loading housing listings from json file
-with open("listings.json", "r") as f:
+with open("listings.json", "r", encoding="utf-8") as f:
     LISTINGS = json.load(f)
 
 
@@ -67,15 +67,6 @@ def handle_request(msg):
     except Exception as e: #this is incase there are any errors
         return error_response(str(e))
 
-
-#
-# This will allow client to search for data in JSON file
-# note this implementation is NOT correct rn, it is just filler for testing
-#def search(query):
-#    return[
-#       record for record in LISTINGS
-#        if all(str(v).lower() in str(record.get(k, "")).lower() for k, v in query.items())
-#   ]
 
 # Setting up host and port
 DATA_HOST = "0.0.0.0"

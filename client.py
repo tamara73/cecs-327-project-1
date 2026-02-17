@@ -1,8 +1,37 @@
 import socket
+import time
 
 # this will connect it to own computers ip address
 HOST = "127.0.0.1"
 PORT = 8080
+
+# Simple Performance Experiment (Real-Life Angle) - this will run the command 50 times
+def performace_test(wfile, rfile):
+    command = "SEARCH city=LA max_price=5000"
+    repeats = 50
+
+    print("\nRunning performance test...")
+    print(f"Sending '{command}' {repeats} times...\n")
+    start = time.time()
+
+    for i in range(repeats):
+        #send request
+        wfile.write(command + "\n")
+        wfile.flush()
+    
+    #reads until END
+    while True:
+        line = rfile.readline()
+        if not line:
+            break
+        if line.startswith("ERROR") or line.strip() == "END":
+            break
+    end = time.time()
+    total = end - start
+    avg = total / repeats
+
+    print(f"Total time: {total:.6f} seconds")
+    print(f"Average per request: {avg:.6f} seconds\n")
 
 #create socket and connects to app server
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -17,10 +46,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
     while True:
         #ask user for input
-        message = input("Client: ")
+        message = input("Client: ").strip()
+
+        if not message:
+            continue
+
+        if message.upper() == "PER":
+            performace_test(wfile, rfile)
+            continue
 
         #if user wnats to quit it will noify server and stop client
-        if message.strip().upper() == "QUIT":
+        if message.upper() == "QUIT":
             wfile.write("QUIT\n")
             wfile.flush()
             print("Disconnecting... bye bye!")
