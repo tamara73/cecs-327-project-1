@@ -9,6 +9,10 @@ Clients will be able to look through data from a JSON file. This program will al
 2. A data server (data_server.py) which will store the housing data and also answers simple data requests.
 
 This is done through TCP ports using a 3 tier socket system which allows for communication between the programs. 
+The following ports are used:
+
+- **Application Server:** Port 8080  
+- **Data Server:** Port 9090  
 
 ## Getting Started
 
