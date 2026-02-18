@@ -49,7 +49,7 @@ def untill_end(rfile):
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((APP_HOST, APP_PORT))
-server.listen(1)
+server.listen(5)
 
 print(f"[app_server] Listening on {APP_HOST}:{APP_PORT}")
 print(f"[app_server] Will forward to data_server at {DATA_HOST}:{DATA_PORT}")
