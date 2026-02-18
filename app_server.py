@@ -10,6 +10,14 @@ DATA_PORT = 9090
 #cashe: use False for without cashing and True with cashing
 CACHE_ENABLED = False #you can change it here True/Flase
 CACHE = {} 
+Log_file = "app_server.log"
+
+#logs requests and relies into app_server.log
+def log_request(request, reply):
+    ts = time.strftime("%m-%d-%Y %H:%M:%S")
+    with open(Log_file, "a", encoding="utf-8") as f:
+        f.write(f"[{ts}] Request: {request}\n")
+        f.write(f"[{ts}] Reply:\n{reply}\n")
 
 #parase commands from client
 def parase_cas_command(line):
@@ -49,7 +57,7 @@ def untill_end(rfile):
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((APP_HOST, APP_PORT))
-server.listen(5)
+server.listen(1)
 
 print(f"[app_server] Listening on {APP_HOST}:{APP_PORT}")
 print(f"[app_server] Will forward to data_server at {DATA_HOST}:{DATA_PORT}")
@@ -85,6 +93,7 @@ while True:
                     response = CACHE[cashe_key]
                     cw.write(response)
                     cw.flush()
+                    log_request(query, response)#for log
                     continue
 
                 #parse client command
@@ -108,6 +117,9 @@ while True:
 
                     #receives responses
                     response = untill_end(ds_r)
+
+                    #logs request / replys
+                    log_request(query, response)
 
                 #saves to cashe    
                 if CACHE_ENABLED:
