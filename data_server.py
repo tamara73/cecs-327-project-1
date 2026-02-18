@@ -76,9 +76,7 @@ DATA_PORT = 9090
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((DATA_HOST, DATA_PORT))
-# since we only take one query at a time we only allow
-# the server to listen to listen once at a time
-server.listen(1) 
+server.listen(5) 
 
 # comment to ensure server is connected correctly - can be deleted later
 print("Hello, server is ready for your query!")
